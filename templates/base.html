@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ profile.name }} — Portfolio{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{{ url_for('home') }}">
+        <span class="brand-mark" aria-hidden="true">{{ initials }}</span>
+        <span class="brand-name">{{ profile.name }}</span>
+      </a>
+      <nav aria-label="Main">
+        <ul class="nav-list">
+          {% for label, endpoint in nav_items %}
+          <li>
+            <a href="{{ url_for(endpoint) }}"{% if request.endpoint == endpoint %} aria-current="page" class="active"{% endif %}>{{ label }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>{{ profile.name }}</span>
+      <span class="footer-links">
+        {% if profile.github_url and not profile.github_url.startswith('TODO') %}
+        <a href="{{ profile.github_url }}">GitHub</a>
+        {% endif %}
+        {% if profile.linkedin_url and not profile.linkedin_url.startswith('TODO') %}
+        <a href="{{ profile.linkedin_url }}">LinkedIn</a>
+        {% endif %}
+      </span>
+    </div>
+  </footer>
+</body>
+</html>
