@@ -1,6 +1,166 @@
 {% extends "base.html" %}
 {% block title %}Home — {{ profile.name }}{% endblock %}
 {% block content %}
-<h1>Home</h1>
-<p>TODO: Home page content goes here.</p>
+<section class="profile-card card">
+  <div class="profile-banner">
+    {% if has_banner %}
+    <img src="{{ url_for('static', filename=profile.banner) }}" alt="">
+    {% endif %}
+  </div>
+  <div class="profile-main card-body">
+    <div class="profile-avatar">
+      {% if has_avatar %}
+      <img src="{{ url_for('static', filename=profile.avatar) }}" alt="{{ profile.name }}">
+      {% else %}
+      <span aria-hidden="true">{{ initials }}</span>
+      {% endif %}
+    </div>
+    <h1 class="profile-name">{{ profile.name }}</h1>
+    {% if profile.headline %}
+    <p class="profile-headline">{{ profile.headline }}</p>
+    {% endif %}
+    {% if profile.location %}
+    <p class="profile-location">{{ profile.location }}</p>
+    {% endif %}
+    <div class="profile-actions">
+      <a class="btn btn-primary" href="{{ url_for('experience') }}">View my experience</a>
+      {% set github_url = profile.github_url|public_url %}
+      {% if github_url %}
+      <a class="btn btn-secondary" href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+      {% endif %}
+      {% if has_cv %}
+      <a class="btn btn-secondary" href="{{ url_for('static', filename=profile.cv) }}">Download CV</a>
+      {% endif %}
+      <a class="profile-contact-link" href="{{ url_for('contact') }}">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="home-grid">
+  <div class="home-main">
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>About</h2></div>
+        {% for para in profile.about.split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Experience</h2></div>
+        {% if EXPERIENCE %}
+        <ul class="media-list">
+          {% for job in EXPERIENCE[:3] %}
+          <li class="media">
+            <span class="media-logo" aria-hidden="true">{{ (job.company or '')[:1] }}</span>
+            <div class="media-text">
+              <p class="media-title">{{ job.company }}</p>
+              <p class="media-subtitle">{{ job.title }}</p>
+              {% set date_range = (job.start ~ ' – ' ~ job.end) if (job.start and job.end) else (job.start or job.end) %}
+              <p class="media-meta muted">{{ date_range }}{% if date_range and job.location %} • {% endif %}{{ job.location }}</p>
+              {% if job.bullets %}
+              <ul class="media-bullets">
+                {% for bullet in job.bullets[:2] %}
+                <li>{{ bullet }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">TODO: Add your experience in content.py.</p>
+        {% endif %}
+      </div>
+      {% if EXPERIENCE %}
+      <div class="card-footer">
+        <a href="{{ url_for('experience') }}">Show all experience →</a>
+      </div>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Featured projects</h2></div>
+        {% if PROJECTS %}
+        <ul class="project-list">
+          {% for project in PROJECTS[:3] %}
+          <li class="project">
+            <p class="project-name">{{ project.name }}</p>
+            <p class="project-desc">{{ project.description }}</p>
+            {% if project.tags %}
+            <p class="chip-row">
+              {% for tag in project.tags %}<span class="chip">{{ tag }}</span>{% endfor %}
+            </p>
+            {% endif %}
+            {% set project_url = project.github_url|public_url %}
+            {% if project_url %}
+            <p class="project-links"><a href="{{ project_url }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">TODO: Add your projects in content.py.</p>
+        {% endif %}
+      </div>
+      {% if PROJECTS %}
+      <div class="card-footer">
+        <a href="{{ url_for('projects') }}">All projects →</a>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="home-side">
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Contact</h2></div>
+        <ul class="contact-list">
+          {% set email = profile.email|public_url %}
+          {% if email %}
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path fill-rule="evenodd" d="M2 3h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm-1 2.4 7 5 7-5v-.6l-7 5-7-5v.6z"/></svg>
+            <a href="mailto:{{ email }}">{{ email }}</a>
+          </li>
+          {% endif %}
+          {% set linkedin_url = profile.linkedin_url|public_url %}
+          {% if linkedin_url %}
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M2 3.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0zM2 6h3v8H2V6zm4 0h2.5v1.1c.5-.7 1.4-1.3 2.8-1.3 2 0 3.2 1.3 3.2 3.7V14h-3V9.7c0-1.1-.5-1.8-1.5-1.8-1 0-1.6.7-1.6 1.9V14H6V6z"/></svg>
+            <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </li>
+          {% endif %}
+          {% set github_url = profile.github_url|public_url %}
+          {% if github_url %}
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M6.2 3.5 2.5 8l3.7 4.5 1.3-1.1L4.9 8l2.6-3.4-1.3-1.1zm3.6 0-1.3 1.1L11.1 8l-2.6 3.4 1.3 1.1L13.5 8 9.8 3.5z"/></svg>
+            <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </li>
+          {% endif %}
+          {% if profile.location %}
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path fill-rule="evenodd" d="M8 1a5 5 0 0 0-5 5c0 3.6 5 9 5 9s5-5.4 5-9a5 5 0 0 0-5-5zM5.8 6a2.2 2.2 0 1 0 4.4 0 2.2 2.2 0 1 0-4.4 0z"/></svg>
+            <span>{{ profile.location }}</span>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Skills</h2></div>
+        {% if SKILLS %}
+        <p class="chip-row">
+          {% for skill in SKILLS %}<span class="chip">{{ skill }}</span>{% endfor %}
+        </p>
+        {% else %}
+        <p class="empty-state">TODO: Add your skills in content.py.</p>
+        {% endif %}
+      </div>
+    </section>
+  </aside>
+</div>
 {% endblock %}

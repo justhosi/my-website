@@ -33,11 +33,13 @@
     <div class="container footer-inner">
       <span>{{ profile.name }}</span>
       <span class="footer-links">
-        {% if profile.github_url and not profile.github_url.startswith('TODO') %}
-        <a href="{{ profile.github_url }}">GitHub</a>
+        {% set github_url = profile.github_url|public_url %}
+        {% if github_url %}
+        <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
         {% endif %}
-        {% if profile.linkedin_url and not profile.linkedin_url.startswith('TODO') %}
-        <a href="{{ profile.linkedin_url }}">LinkedIn</a>
+        {% set linkedin_url = profile.linkedin_url|public_url %}
+        {% if linkedin_url %}
+        <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         {% endif %}
       </span>
     </div>

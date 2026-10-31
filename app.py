@@ -4,7 +4,7 @@ import os
 
 from flask import Flask, render_template
 
-from content import PROFILE
+from content import EXPERIENCE, PROFILE, PROJECTS, SKILLS
 
 app = Flask(__name__)
 
@@ -37,6 +37,22 @@ def _asset_exists(relative_path):
         return False
 
 
+@app.template_filter("public_url")
+def public_url(value):
+    """Return "" for missing or TODO placeholder values, else the value.
+
+    Templates use this to decide whether a URL (or contact value) is real
+    before rendering it as a link, so placeholder copy never becomes a link.
+    """
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        if not value.strip() or value.strip().lower().startswith("todo"):
+            return ""
+        return value
+    return value
+
+
 @app.context_processor
 def inject_globals():
     """Share profile, nav, and asset flags with every template."""
@@ -52,7 +68,9 @@ def inject_globals():
 
 @app.get("/")
 def home():
-    return render_template("index.html")
+    return render_template(
+        "index.html", EXPERIENCE=EXPERIENCE, PROJECTS=PROJECTS, SKILLS=SKILLS
+    )
 
 
 @app.get("/experience")
