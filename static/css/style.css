@@ -253,6 +253,11 @@ main.container {
   color: var(--color-primary);
   font-size: 0.75rem;
   font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.about-text {
+  overflow-wrap: anywhere;
 }
 
 .muted {
@@ -430,6 +435,10 @@ main.container {
 .project-name {
   font-weight: 600;
   overflow-wrap: break-word;
+}
+
+.project-desc {
+  overflow-wrap: anywhere;
 }
 
 .project .chip-row {

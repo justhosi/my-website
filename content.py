@@ -3,6 +3,7 @@
 # HOW TO EDIT:
 #   - Replace every "TODO: ..." placeholder with real text.
 #   - PROFILE holds the owner's identity, bio, and contact links.
+#   - "email" is a bare address (you@example.com, no "mailto:" prefix).
 #   - EXPERIENCE / EDUCATION are lists shown in order; add or remove dicts.
 #   - SKILLS is a plain list of short skill names.
 #   - PROJECTS holds portfolio entries; leave "demo_url" as "" if none.

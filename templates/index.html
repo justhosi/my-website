@@ -10,7 +10,7 @@
   <div class="profile-main card-body">
     <div class="profile-avatar">
       {% if has_avatar %}
-      <img src="{{ url_for('static', filename=profile.avatar) }}" alt="{{ profile.name }}">
+      <img src="{{ url_for('static', filename=profile.avatar) }}" alt="">
       {% else %}
       <span aria-hidden="true">{{ initials }}</span>
       {% endif %}
@@ -41,7 +41,11 @@
     <section class="card">
       <div class="card-body">
         <div class="card-header"><h2>About</h2></div>
-        {% for para in profile.about.split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+        {% if profile.about is string and profile.about.strip() %}
+        {% for para in profile.about.split('\n\n') %}<p class="about-text">{{ para }}</p>{% endfor %}
+        {% else %}
+        <p class="empty-state">TODO: Add your summary in content.py.</p>
+        {% endif %}
       </div>
     </section>
 
@@ -118,7 +122,7 @@
       <div class="card-body">
         <div class="card-header"><h2>Contact</h2></div>
         <ul class="contact-list">
-          {% set email = profile.email|public_url %}
+          {% set email = profile.email|public_email %}
           {% if email %}
           <li>
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path fill-rule="evenodd" d="M2 3h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm-1 2.4 7 5 7-5v-.6l-7 5-7-5v.6z"/></svg>

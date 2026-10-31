@@ -1,6 +1,7 @@
 """Flask application: routes and shared template context."""
 
 import os
+import re
 
 from flask import Flask, render_template
 
@@ -47,10 +48,40 @@ def public_url(value):
     if value is None:
         return ""
     if isinstance(value, str):
-        if not value.strip() or value.strip().lower().startswith("todo"):
+        stripped = value.strip()
+        if not stripped or stripped.lower().startswith("todo"):
+            return ""
+        lowered = stripped.lower()
+        if not (
+            lowered.startswith("http://")
+            or lowered.startswith("https://")
+            or lowered.startswith("mailto:")
+        ):
             return ""
         return value
     return value
+
+
+@app.template_filter("public_email")
+def public_email(value):
+    """Return the bare address (no mailto:) or "" if missing/placeholder/invalid.
+
+    Templates prefix ``mailto:`` themselves, so returning the bare address
+    keeps exactly one ``mailto:`` in the rendered ``href``.
+    """
+    if not isinstance(value, str):
+        return ""
+    stripped = value.strip()
+    if not stripped or stripped.lower().startswith("todo"):
+        return ""
+    bare = stripped
+    if bare.lower().startswith("mailto:"):
+        bare = bare[len("mailto:"):].strip()
+    if "<" in bare or ">" in bare:
+        return ""
+    if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", bare):
+        return ""
+    return bare
 
 
 @app.context_processor
