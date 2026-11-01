@@ -1,6 +1,82 @@
 {% extends "base.html" %}
 {% block title %}Contact — {{ profile.name }}{% endblock %}
 {% block content %}
-<h1>Contact</h1>
-<p>TODO: Contact page content goes here.</p>
+<header class="page-header">
+  <h1>Contact</h1>
+  <p class="muted">TODO: Open to … roles — happy to talk about ….</p>
+</header>
+
+<div class="contact-wrap">
+  {% set email = profile.email|public_email %}
+  {% set linkedin_url = profile.linkedin_url|public_url %}
+  {% set github_url = (profile.github_url|default('', true))|public_url %}
+  {% set loc = (profile.location|default('', true))|trim %}
+  {% set show_location = loc and (loc[:4]|lower) != 'todo' %}
+
+  <section class="card contact-primary">
+    <div class="card-body">
+      <div class="card-header"><h2>Get in touch</h2></div>
+      {% if email %}
+      <a class="btn btn-primary contact-email-btn" href="mailto:{{ email }}">{{ email }}</a>
+      {% else %}
+      <p class="empty-state">My email address is being set up — please reach out on LinkedIn below.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-body">
+      <div class="card-header"><h2>Direct links</h2></div>
+      {% if email or linkedin_url or github_url or show_location %}
+      <ul class="contact-list">
+        {% if email %}
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M2.5 4.5 8 9l5.5-4.5"/></svg>
+          <span class="contact-label">Email</span>
+          <a href="{{ 'mailto:' ~ email }}">{{ email }}</a>
+        </li>
+        {% endif %}
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="13" height="13" rx="2"/><path d="M5 7.5V11M5 5.3v.2M8 11V8.8c0-.9.7-1.6 1.6-1.6s1.4.7 1.4 1.6V11"/></svg>
+          <span class="contact-label">LinkedIn</span>
+          {% if linkedin_url %}
+          <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">{{ linkedin_url }}</a>
+          {% else %}
+          <span class="muted">Link coming soon</span>
+          {% endif %}
+        </li>
+        {% if github_url %}
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 3 8l3 4.5M10 3.5 13 8l-3 4.5"/></svg>
+          <span class="contact-label">GitHub</span>
+          <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">{{ github_url }}</a>
+        </li>
+        {% endif %}
+        {% if show_location %}
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s4.5-4.3 4.5-7.3A4.5 4.5 0 0 0 8 2.2 4.5 4.5 0 0 0 3.5 6.7C3.5 9.7 8 14 8 14z"/><circle cx="8" cy="6.7" r="1.6"/></svg>
+          <span class="contact-label">Location</span>
+          <span>{{ loc }}</span>
+        </li>
+        {% endif %}
+      </ul>
+      {% else %}
+      <p class="empty-state">More ways to reach me are coming soon.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if has_cv %}
+  <div class="page-actions">
+    <a class="btn btn-secondary" href="{{ url_for('static', filename=profile.cv) }}">Download CV</a>
+  </div>
+  {% endif %}
+
+  {% if email %}
+  <p class="muted contact-close">Prefer email? The button above goes straight to my inbox.</p>
+  {% else %}
+  <p class="muted contact-close">The fastest way to reach me right now is LinkedIn above.</p>
+  {% endif %}
+  <p class="contact-back"><a class="page-contact-link" href="{{ url_for('home') }}">← Back to home</a></p>
+</div>
 {% endblock %}

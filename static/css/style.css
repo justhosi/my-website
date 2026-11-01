@@ -766,3 +766,46 @@ main.container {
     padding: 0 16px 16px;
   }
 }
+
+/* ---- Contact page (appended; tokens above unchanged) ---- */
+
+/* Narrow stack keeps the contact actions easy to scan. Row layout,
+   icon sizing and link wrapping reuse the existing .contact-list
+   rules from the home page, so only page-specific bits live here. */
+.contact-wrap {
+  max-width: 640px;
+}
+
+/* Primary card stands out as the page's main action. */
+.contact-primary {
+  border: 2px solid var(--color-primary);
+}
+
+/* Large, obvious email button; long addresses wrap instead of overflowing. */
+.contact-email-btn {
+  display: inline-block;
+  max-width: 100%;
+  padding: 12px 28px;
+  font-size: 1.125rem;
+  overflow-wrap: anywhere;
+}
+
+.contact-label {
+  font-weight: 600;
+}
+
+.contact-close {
+  margin-top: 16px;
+}
+
+.contact-back {
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .contact-email-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
