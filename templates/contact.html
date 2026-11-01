@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Contact — {{ profile.name }}{% endblock %}
 {% block content %}
+<div class="contact-wrap">
 <header class="page-header">
   <h1>Contact</h1>
   <p class="muted">TODO: Open to … roles — happy to talk about ….</p>
 </header>
 
-<div class="contact-wrap">
   {% set email = profile.email|public_email %}
   {% set linkedin_url = profile.linkedin_url|public_url %}
   {% set github_url = (profile.github_url|default('', true))|public_url %}
@@ -42,14 +42,14 @@
         <li>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="13" height="13" rx="2"/><path d="M5 7.5V11M5 5.3v.2M8 11V8.8c0-.9.7-1.6 1.6-1.6s1.4.7 1.4 1.6V11"/></svg>
           <span class="contact-label">LinkedIn</span>
-          <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">{{ linkedin_url }}</a>
+          <a href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">{{ linkedin_url|pretty_url }}</a>
         </li>
         {% endif %}
         {% if github_url %}
         <li>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 3 8l3 4.5M10 3.5 13 8l-3 4.5"/></svg>
           <span class="contact-label">GitHub</span>
-          <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">{{ github_url }}</a>
+          <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">{{ github_url|pretty_url }}</a>
         </li>
         {% endif %}
         {% if show_location %}

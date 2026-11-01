@@ -143,6 +143,17 @@ main.container {
   gap: 12px;
 }
 
+.footer-links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 /* Small screens: let nav scroll horizontally without page overflow */
 @media (max-width: 640px) {
   .header-inner {
@@ -774,6 +785,7 @@ main.container {
    rules from the home page, so only page-specific bits live here. */
 .contact-wrap {
   max-width: 640px;
+  margin-inline: auto;
 }
 
 /* Primary card stands out as the page's main action. */
@@ -791,7 +803,15 @@ main.container {
 }
 
 .contact-label {
+  flex-shrink: 0;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.contact-wrap .contact-list li > a:last-child,
+.contact-wrap .contact-list li > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .contact-close {

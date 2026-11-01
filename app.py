@@ -84,6 +84,22 @@ def public_email(value):
     return bare
 
 
+@app.template_filter("pretty_url")
+def pretty_url(value):
+    """Return host/path display text for an http(s) URL, else ""."""
+    if not isinstance(value, str):
+        return ""
+    stripped = value.strip()
+    lowered = stripped.lower()
+    if not (lowered.startswith("http://") or lowered.startswith("https://")):
+        return ""
+    rest = stripped.split("://", 1)[1]
+    rest = rest.split("?", 1)[0].split("#", 1)[0]
+    if rest.lower().startswith("www."):
+        rest = rest[len("www."):]
+    return rest.rstrip("/")
+
+
 @app.context_processor
 def inject_globals():
     """Share profile, nav, and asset flags with every template."""
