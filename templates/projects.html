@@ -1,6 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Projects — {{ profile.name }}{% endblock %}
 {% block content %}
-<h1>Projects</h1>
-<p>TODO: Projects page content goes here.</p>
+<header class="page-header">
+  <h1>Projects</h1>
+  <p class="muted">TODO: One or two sentences about what you like to build.</p>
+  <div class="page-actions">
+    {% set github_url = (profile.github_url|default('', true))|public_url %}
+    {% if github_url %}
+    <a class="btn btn-secondary" href="{{ github_url }}" target="_blank" rel="noopener noreferrer">See more on GitHub ↗</a>
+    {% endif %}
+  </div>
+</header>
+
+{% if PROJECTS %}
+<div class="projects-grid">
+  {% for project in PROJECTS %}
+  <section class="card project-card">
+    <div class="card-body project-card-body">
+      <h2 class="project-card-name">{{ project.name|default('', true) }}</h2>
+      <p class="project-desc">{{ project.description|default('', true) }}</p>
+      {% set tags = project.tags|default([], true) %}
+      {% if tags %}
+      <p class="chip-row">
+        {% for tag in tags %}<span class="chip">{{ tag }}</span>{% endfor %}
+      </p>
+      {% endif %}
+    </div>
+    <div class="project-card-footer">
+      {% set code_url = (project.github_url|default('', true))|public_url %}
+      {% set demo_url = (project.demo_url|default('', true))|public_url %}
+      {% if code_url %}
+      <a class="btn btn-secondary" href="{{ code_url }}" target="_blank" rel="noopener noreferrer">Code</a>
+      {% endif %}
+      {% if demo_url %}
+      <a class="btn btn-secondary" href="{{ demo_url }}" target="_blank" rel="noopener noreferrer">Live demo</a>
+      {% endif %}
+      {% if not code_url and not demo_url %}
+      <span class="muted">Links coming soon</span>
+      {% endif %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% else %}
+<section class="card">
+  <div class="card-body">
+    <p class="empty-state">TODO: Add your projects in content.py.</p>
+  </div>
+</section>
+{% endif %}
 {% endblock %}

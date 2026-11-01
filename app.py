@@ -113,7 +113,7 @@ def experience():
 
 @app.get("/projects")
 def projects():
-    return render_template("projects.html")
+    return render_template("projects.html", PROJECTS=PROJECTS)
 
 
 @app.get("/contact")
