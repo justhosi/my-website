@@ -1,6 +1,91 @@
 {% extends "base.html" %}
 {% block title %}Experience — {{ profile.name }}{% endblock %}
 {% block content %}
-<h1>Experience</h1>
-<p>TODO: Experience page content goes here.</p>
+<header class="page-header">
+  <h1>Experience</h1>
+  <p class="muted">TODO: One or two sentences about your career so far.</p>
+  <div class="page-actions">
+    {% if has_cv %}
+    <a class="btn btn-primary" href="{{ url_for('static', filename=profile.cv) }}">Download CV</a>
+    {% endif %}
+    <a class="page-contact-link" href="{{ url_for('contact') }}">Get in touch</a>
+  </div>
+</header>
+
+<div class="experience-grid">
+  <div class="experience-main">
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Work history</h2></div>
+        {% if EXPERIENCE %}
+        <ul class="timeline">
+          {% for job in EXPERIENCE %}
+          <li class="timeline-item">
+            <div class="entry-main">
+              <span class="entry-avatar" aria-hidden="true">{{ (job.company or '')[:1]|upper }}</span>
+              <div class="entry-text">
+                <h2 class="entry-title">{{ job.title }}</h2>
+                {% set company_url = job.company_url|public_url %}
+                {% if company_url %}
+                <p class="entry-company"><a href="{{ company_url }}" target="_blank" rel="noopener noreferrer">{{ job.company }}</a></p>
+                {% else %}
+                <p class="entry-company"><span>{{ job.company }}</span></p>
+                {% endif %}
+                {% set date_range = (job.start ~ ' – ' ~ job.end) if (job.start and job.end) else (job.start or job.end) %}
+                <p class="entry-meta muted">{{ date_range }}{% if date_range and job.location %} • {% endif %}{{ job.location }}</p>
+                {% if job.bullets %}
+                <ul class="entry-bullets">
+                  {% for bullet in job.bullets %}
+                  <li>{{ bullet }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">TODO: Add your experience in content.py.</p>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  <aside class="experience-side">
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Education</h2></div>
+        {% if EDUCATION %}
+        <ul class="edu-list">
+          {% for edu in EDUCATION %}
+          <li class="edu">
+            <p class="edu-school">{{ edu.school }}</p>
+            {% set edu_dates = (edu.start ~ ' – ' ~ edu.end) if (edu.start and edu.end) else (edu.start or edu.end) %}
+            {% if edu.degree or edu_dates %}
+            <p class="edu-detail muted">{{ edu.degree }}{% if edu.degree and edu_dates %} • {% endif %}{{ edu_dates }}</p>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">TODO: Add your education in content.py.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <div class="card-header"><h2>Skills</h2></div>
+        {% if SKILLS %}
+        <p class="chip-row">
+          {% for skill in SKILLS %}<span class="chip">{{ skill }}</span>{% endfor %}
+        </p>
+        {% else %}
+        <p class="empty-state">TODO: Add your skills in content.py.</p>
+        {% endif %}
+      </div>
+    </section>
+  </aside>
+</div>
 {% endblock %}

@@ -5,7 +5,7 @@ import re
 
 from flask import Flask, render_template
 
-from content import EXPERIENCE, PROFILE, PROJECTS, SKILLS
+from content import EDUCATION, EXPERIENCE, PROFILE, PROJECTS, SKILLS
 
 app = Flask(__name__)
 
@@ -106,7 +106,9 @@ def home():
 
 @app.get("/experience")
 def experience():
-    return render_template("experience.html")
+    return render_template(
+        "experience.html", EXPERIENCE=EXPERIENCE, EDUCATION=EDUCATION, SKILLS=SKILLS
+    )
 
 
 @app.get("/projects")
