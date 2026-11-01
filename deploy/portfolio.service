@@ -1,0 +1,42 @@
+# Run as a dedicated non-root user (created at deploy time, see README).
+[Unit]
+Description=Personal portfolio (Flask + gunicorn)
+# Start only after networking is up; gunicorn binds a TCP port.
+After=network.target
+
+[Service]
+# Simple: gunicorn stays in the foreground, so systemd tracks it directly.
+Type=simple
+# Dedicated non-root user that owns /srv/portfolio; never run this as root.
+User=portfolio
+# App code lives here; also the base for relative paths (templates, static).
+WorkingDirectory=/srv/portfolio
+# Unbuffered Python output so logs appear in journald immediately.
+Environment=PYTHONUNBUFFERED=1
+# Listen on all interfaces (0.0.0.0): Freestyle's TLS rule terminates
+# outside the guest and forwards to the VM's port, so a loopback-bound
+# socket would be unreachable (502) even though curl from inside the VM
+# would still succeed. Do not add a public inbound firewall rule for 8000
+# -- only the TLS rule needs it; exposure is limited by the VM's inbound
+# firewall rules.
+ExecStart=/srv/portfolio/.venv/bin/gunicorn --workers 2 --bind 0.0.0.0:8000 --access-logfile - --error-logfile - app:app
+# Restart on any exit, clean or crash; wait 3s between restarts to avoid a tight loop.
+Restart=always
+RestartSec=3
+# Hardening that does not break gunicorn (it only reads code and listens on 0.0.0.0:8000):
+# block privilege escalation via setuid binaries.
+NoNewPrivileges=true
+# Give the service its own /tmp, isolated from the host and other services.
+PrivateTmp=true
+# Mount /usr and /boot read-only and /etc mostly read-only; no writable state
+# (no database, uploads or log files); CPython may write bytecode caches
+# under the working directory.
+ProtectSystem=full
+# Hide all home directories; the service user needs none of them.
+ProtectHome=true
+# No ReadWritePaths needed: the app keeps no writable state (no database,
+# uploads, or log files) beyond bytecode caches under the working directory.
+
+[Install]
+# Start automatically on boot when enabled with `systemctl enable`.
+WantedBy=multi-user.target
