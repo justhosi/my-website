@@ -817,3 +817,25 @@ main.container {
     font-size: 1rem;
   }
 }
+
+/* ---- Sticky footer: full-height column so short pages fill the viewport ---- */
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  flex-shrink: 0;
+}
+
+main.container {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+.site-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
