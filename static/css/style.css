@@ -639,7 +639,7 @@ main.container {
   overflow-wrap: anywhere;
 }
 
-.entry-meta {
+.entry-text p + p {
   margin-top: 2px;
   font-size: 0.875rem;
   overflow-wrap: anywhere;
@@ -684,7 +684,7 @@ main.container {
   overflow-wrap: break-word;
 }
 
-.edu-detail {
+.edu p + p {
   margin-top: 2px;
   font-size: 0.875rem;
   overflow-wrap: anywhere;

@@ -30,10 +30,10 @@
       {% set code_url = (project.github_url|default('', true))|public_url %}
       {% set demo_url = (project.demo_url|default('', true))|public_url %}
       {% if code_url %}
-      <a class="btn btn-secondary" href="{{ code_url }}" target="_blank" rel="noopener noreferrer">Code</a>
+      <a class="btn btn-secondary" href="{{ code_url }}" target="_blank" rel="noopener noreferrer" aria-label="Code for {{ project.name|default('', true) }}">Code</a>
       {% endif %}
       {% if demo_url %}
-      <a class="btn btn-secondary" href="{{ demo_url }}" target="_blank" rel="noopener noreferrer">Live demo</a>
+      <a class="btn btn-secondary" href="{{ demo_url }}" target="_blank" rel="noopener noreferrer" aria-label="Live demo of {{ project.name|default('', true) }}">Live demo</a>
       {% endif %}
       {% if not code_url and not demo_url %}
       <span class="muted">Links coming soon</span>
