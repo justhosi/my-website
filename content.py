@@ -3,6 +3,8 @@
 # HOW TO EDIT:
 #   - Replace every "TODO: ..." placeholder with real text.
 #   - PROFILE holds the owner's identity, bio, and contact links.
+#   - "experience_intro", "projects_intro", and "contact_intro" are the
+#     one-or-two-sentence intros shown at the top of those pages.
 #   - "email" is a bare address (you@example.com, no "mailto:" prefix).
 #   - EXPERIENCE / EDUCATION are lists shown in order; add or remove dicts.
 #   - SKILLS is a plain list of short skill names.
@@ -16,6 +18,9 @@ PROFILE = {
     "location": "TODO: City, Country",
     "about": "TODO: Paragraph one of your bio.\n\nTODO: Paragraph two of your bio.",
     "email": "TODO: you@example.com",
+    "experience_intro": "TODO: One or two sentences about your career so far.",
+    "projects_intro": "TODO: One or two sentences about what you like to build.",
+    "contact_intro": "TODO: Open to … roles — happy to talk about ….",
     "linkedin_url": "https://www.linkedin.com/in/hossein-mohammadzadehmazinan-483a6311a/",
     "github_url": "TODO: https://github.com/your-username",
     "avatar": "img/avatar.jpg",

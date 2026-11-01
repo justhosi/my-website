@@ -3,7 +3,10 @@
 {% block content %}
 <header class="page-header">
   <h1>Projects</h1>
-  <p class="muted">TODO: One or two sentences about what you like to build.</p>
+  {% set projects_intro = (profile.projects_intro|default('', true)) %}
+  {% if projects_intro is string and projects_intro.strip() %}
+  <p class="muted">{{ projects_intro }}</p>
+  {% endif %}
   <div class="page-actions">
     {% set github_url = (profile.github_url|default('', true))|public_url %}
     {% if github_url %}

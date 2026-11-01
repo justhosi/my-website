@@ -344,18 +344,6 @@ main.container {
   margin-top: 16px;
 }
 
-.profile-contact-link {
-  padding: 6px 8px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-}
-
-.profile-contact-link:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
 /* Two-column home layout */
 .home-grid {
   display: grid;
@@ -802,16 +790,16 @@ main.container {
   overflow-wrap: anywhere;
 }
 
-.contact-label {
+.contact-list .contact-label {
   flex-shrink: 0;
+  min-width: 72px;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.contact-wrap .contact-list li > a:last-child,
-.contact-wrap .contact-list li > span:last-child {
-  min-width: 0;
-  overflow-wrap: anywhere;
+.contact-back-link {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .contact-close {

@@ -3,7 +3,10 @@
 {% block content %}
 <header class="page-header">
   <h1>Experience</h1>
-  <p class="muted">TODO: One or two sentences about your career so far.</p>
+  {% set experience_intro = (profile.experience_intro|default('', true)) %}
+  {% if experience_intro is string and experience_intro.strip() %}
+  <p class="muted">{{ experience_intro }}</p>
+  {% endif %}
   <div class="page-actions">
     {% if has_cv %}
     <a class="btn btn-primary" href="{{ url_for('static', filename=profile.cv) }}">Download CV</a>

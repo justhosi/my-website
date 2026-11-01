@@ -86,7 +86,11 @@ def public_email(value):
 
 @app.template_filter("pretty_url")
 def pretty_url(value):
-    """Return host/path display text for an http(s) URL, else ""."""
+    """Return host/path display text for an http(s) URL, else "".
+
+    A userinfo section (anything up to the last "@" in the authority)
+    is stripped so credentials are never shown in the display text.
+    """
     if not isinstance(value, str):
         return ""
     stripped = value.strip()
@@ -95,6 +99,10 @@ def pretty_url(value):
         return ""
     rest = stripped.split("://", 1)[1]
     rest = rest.split("?", 1)[0].split("#", 1)[0]
+    authority, sep, remainder = rest.partition("/")
+    if "@" in authority:
+        authority = authority.rsplit("@", 1)[1]
+    rest = authority + (sep + remainder if sep else "")
     if rest.lower().startswith("www."):
         rest = rest[len("www."):]
     return rest.rstrip("/")
