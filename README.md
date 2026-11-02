@@ -15,6 +15,12 @@ All editable content is in `content.py` — nothing else needs changing:
   (`experience_intro`, `projects_intro`, `contact_intro`).
 - `EXPERIENCE`, `EDUCATION`, `SKILLS`, `PROJECTS`: lists of dicts/strings.
 
+`content.py` already ships filled in with the owner's real CV — name,
+headline, bio, seven experience entries, two degrees, sixteen skills and six
+projects with their GitHub links — and holds no `TODO` placeholders. The
+rules below describe how the templates treat placeholder values; edit the
+fields above only to change what is shown.
+
 Rules:
 
 - `email` is a bare address (`you@example.com`). Do not add a `mailto:`
@@ -28,15 +34,16 @@ Rules:
 
 ## Add your images and CV
 
-Place files at exactly these paths:
+The three assets are already committed at these paths:
 
 - `static/img/avatar.jpg` — your photo
 - `static/img/banner.jpg` — wide banner behind the profile header
 - `static/files/cv.pdf` — linked by the "Download CV" button
 
-The site works without them: a missing avatar falls back to your initials,
-a missing banner falls back to a gradient, and a missing CV hides the CV
-button. No code changes are needed either way.
+Replace any file in place to change what the site shows. The site still
+works without them: a missing avatar falls back to your initials, a missing
+banner falls back to a gradient, and a missing CV hides the CV button. No
+code changes are needed either way.
 
 ## Run locally
 
