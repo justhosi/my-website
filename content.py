@@ -53,7 +53,7 @@ EXPERIENCE = [
         "title": "Medical Interpreter",
         "company": "GLOBO",
         "company_url": "https://globohq.com/",
-        "location": "Remote · United States healthcare clients",
+        "location": "Remote, United States",
         "start": "Jul 2025",
         "end": "Present",
         "bullets": [
@@ -69,7 +69,7 @@ EXPERIENCE = [
         "title": "Interpreter",
         "company": "Future Group Translation Services",
         "company_url": "",
-        "location": "Remote · Egypt / MENA",
+        "location": "Remote, Egypt / MENA",
         "start": "Apr 2023",
         "end": "Jul 2025",
         "bullets": [
